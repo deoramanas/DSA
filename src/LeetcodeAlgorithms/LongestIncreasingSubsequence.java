@@ -21,89 +21,22 @@ public class LongestIncreasingSubsequence {
 
         int max = 0;
         int[] dp = new int[nums.length];
-        int[] count = new int[nums.length];
-        Arrays.fill(count, 1);
-        Arrays.fill(dp, 1);
         dp[0] = 1;
-
-        for (int i = 0; i < dp.length; i++) {
+        for (int i = 1; i < dp.length; i++) {
             int maxVal = 0;
-
             for (int j = 0; j < i; j++) {
                 if (nums[j] < nums[i]) {
-                    if (dp[j] > maxVal) {
-                        maxVal = dp[j];
-                        count[i] = count[j];
-                    }
-
-                    if (dp[j] + 1 == dp[i]) {
-                        count[i] += count[j];
-                    }
-                } else if (nums[j] >= nums[i]) {
-                    count[i] = count[j] + 1;
+                    maxVal = Math.max(dp[j], maxVal);
                 }
-                dp[i] = maxVal + 1;
-
             }
-
+            dp[i] = maxVal + 1;
         }
 
         for (int i = 0; i < dp.length; i++) {
             max = Math.max(max, dp[i]);
         }
+        System.out.println("dp = " + Arrays.toString(dp));
 
         return max;
     }
-
-    //TLE
-
-//    public static int findNumberOfLIS(int[] nums, int[] dp, int max) {
-//        ArrayDeque<Pair> queue = new ArrayDeque<>();
-//        for (int i = 0; i < dp.length; i++) {
-//            if (dp[i] == max) {
-//                queue.add(new Pair(nums[i], i, +nums[i] + "-> ", max));
-//            }
-//        }
-//
-//        int count = 0;
-//        while (!queue.isEmpty()) {
-//            Pair pair = queue.removeFirst();
-//            if (pair.length == 1) {
-//                count++;
-//            }
-//            for (int i = 0; i < pair.index; i++) {
-//                if (dp[i] == pair.length - 1 && nums[i] < pair.value) {
-//                    queue.add(new Pair(nums[i], i, nums[i] + "->" + pair.path, dp[i]));
-//                }
-//            }
-//        }
-//
-//        System.out.println(queue.toString());
-//        return count;
-//    }
-//
-//}
-//
-//class Pair {
-//    int value;
-//    int index;
-//    String path;
-//    int length;
-//
-//    @Override
-//    public String toString() {
-//        return "Pair{" +
-//                "value=" + value +
-//                ", index=" + index +
-//                ", path='" + path + '\'' +
-//                ", length=" + length +
-//                '}';
-//    }
-//
-//    public Pair(int value, int index, String path, int length) {
-//        this.value = value;
-//        this.index = index;
-//        this.path = path;
-//        this.length = length;
-//    }
 }
