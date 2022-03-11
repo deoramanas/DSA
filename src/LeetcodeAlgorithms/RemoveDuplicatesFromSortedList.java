@@ -16,7 +16,27 @@ public class RemoveDuplicatesFromSortedList {
         printList(head);
     }
 
-    public static ListNode deleteDuplicates(ListNode head) {
+    private static ListNode deleteDuplicates(ListNode head) {
+        ListNode current = head;
+        ListNode next = null;
+
+        if (head == null) {
+            return null;
+        }
+
+        while (current.next != null) {
+            next = current.next;
+            if (current.val == next.val) {
+                current.next = next.next;
+                continue;
+            }
+            current = next;
+        }
+
+        return head;
+    }
+
+    public static ListNode deleteDuplicates1(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -53,7 +73,7 @@ public class RemoveDuplicatesFromSortedList {
         System.out.println();
     }
 
-    public static ListNode deleteDuplicates1(ListNode head) {
+    public static ListNode deleteDuplicates2(ListNode head) {
         if (head == null) {
             return null;
         }
