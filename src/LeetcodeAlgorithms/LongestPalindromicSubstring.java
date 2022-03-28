@@ -3,11 +3,59 @@ package LeetcodeAlgorithms;
 public class LongestPalindromicSubstring {
     public static void main(String[] args) {
         String s = "aaaaa";
-        String ans = longestPalindrome(s);
+        String ans = longestPalindrome2(s);
         System.out.println(ans);
     }
 
-    //Using DP
+    private static String longestPalindrome2(String s) {
+        int n = s.length();
+        boolean[][] dp = new boolean[n + 1][n + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j <= n; j++) {
+                if (i == j) {
+                    dp[i][j] = true;
+                } else if (j - i == 1 && s.charAt(i - 1) == s.charAt(j - 1)) {
+                    dp[i][j] = true;
+                }
+            }
+        }
+
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = i; j <= n; j++) {
+                if (s.charAt(i - 1) == s.charAt(j - 1) && dp[i + 1][j - 1]) {
+                    dp[i][j] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                System.out.print(dp[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        int start = 0;
+        int end = 0;
+        int max = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (dp[i][j] && (j - i + 1 > max)) {
+                    start = i;
+                    end = j;
+                    max = Math.max(max, end - start + 1);
+                }
+            }
+        }
+        System.out.println(start);
+        System.out.println(end);
+        System.out.println(max);
+        return s.substring(start - 1, end);
+
+    }
+
+    // Using DP
     private static String longestPalindrome(String s) {
         boolean[][] dp = new boolean[s.length()][s.length()];
 
@@ -25,7 +73,7 @@ public class LongestPalindromicSubstring {
         }
 
         for (int i = s.length() - 2; i >= 0; i--) {
-            for (int j =1 ; j < s.length(); j++) {
+            for (int j = 1; j < s.length(); j++) {
 
                 if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
                     dp[i][j] = true;
@@ -47,16 +95,16 @@ public class LongestPalindromicSubstring {
 
         printDpArray(s, dp);
 
-//        for (int i = 0; i < s.length() - 1; i++) {
-//            for (int j = 1; j < s.length(); j++) {
-//                if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
-//                    dp[i][j] = true;
-//                    start = i;
-//                    end = j;
-//                    maxSoFar = Math.max(maxSoFar, end - start + 1);
-//                }
-//            }
-//        }
+        // for (int i = 0; i < s.length() - 1; i++) {
+        // for (int j = 1; j < s.length(); j++) {
+        // if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
+        // dp[i][j] = true;
+        // start = i;
+        // end = j;
+        // maxSoFar = Math.max(maxSoFar, end - start + 1);
+        // }
+        // }
+        // }
 
         printDpArray(s, dp);
         return s.substring(start, end + 1);
@@ -73,7 +121,7 @@ public class LongestPalindromicSubstring {
         }
     }
 
-    //expand from centre - time- O(n^2) -sc )(1)
+    // expand from centre - time- O(n^2) -sc )(1)
     public static String longestPalindrome1(String s) {
 
         int start = 0;
