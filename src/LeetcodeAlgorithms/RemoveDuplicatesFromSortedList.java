@@ -5,15 +5,38 @@ import Leetcode.ListNode;
 public class RemoveDuplicatesFromSortedList {
     public static void main(String[] args) {
         ListNode node = new ListNode(1);
-//        node.next = new ListNode(1);
+        // node.next = new ListNode(1);
         node.next = new ListNode(2);
         node.next.next = new ListNode(3);
         node.next.next.next = new ListNode(3);
         node.next.next.next.next = new ListNode(4);
         node.next.next.next.next.next = new ListNode(4);
         node.next.next.next.next.next.next = new ListNode(5);
-        ListNode head = deleteDuplicates(node);
+        ListNode head = deleteDuplicates3(node);
         printList(head);
+    }
+
+    private static ListNode deleteDuplicates3(ListNode node) {
+        ListNode dummy = new ListNode(-1);
+        ListNode prev = dummy;
+        ListNode loco = dummy;
+
+        ListNode curr = node;
+
+        while (curr != null && curr.next != null) {
+            if (prev.val != curr.val && curr.val != curr.next.val) {
+                loco.next = curr;
+                loco = loco.next;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+
+        if (prev.val != curr.val) {
+            loco.next = curr;
+            loco = loco.next;
+        }
+        return dummy.next;
     }
 
     private static ListNode deleteDuplicates(ListNode head) {
@@ -41,7 +64,7 @@ public class RemoveDuplicatesFromSortedList {
             return null;
         }
         ListNode dummy = new ListNode(-1);
-        //dummy.next = head;
+        // dummy.next = head;
         ListNode current = head;
         ListNode prev = dummy;
         ListNode newlist = dummy;
@@ -78,17 +101,20 @@ public class RemoveDuplicatesFromSortedList {
             return null;
         }
 
-        ListNode dummy = new ListNode(0 == head.val ? 1 : 0); // to guarantee the dummy node is not same as the original head.
+        ListNode dummy = new ListNode(0 == head.val ? 1 : 0); // to guarantee the dummy node is not same as
+                                                              // the original head.
 
         dummy.next = head;
 
         ListNode pre = dummy;
         ListNode cur = head;
 
-        ListNode first = dummy;  // the first node in the new unduplicated(result) list.
+        ListNode first = dummy; // the first node in the new unduplicated(result) list.
 
         while (cur != null && cur.next != null) {
-            if (cur.val != pre.val && cur.val != cur.next.val) { // we found a unique node, we connect it at the tail of the unduplicated list, and update the first node.
+            if (cur.val != pre.val && cur.val != cur.next.val) { // we found a unique node, we connect it at
+                                                                 // the tail of the unduplicated list, and
+                                                                 // update the first node.
                 first.next = cur;
                 first = first.next;
             }
