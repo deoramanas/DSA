@@ -42,7 +42,8 @@ public class CreateBinaryTree {
         if (root == null) {
 
             return 0;
-        } else return sizeOfTree(root.left) + sizeOfTree(root.right) + 1;
+        } else
+            return sizeOfTree(root.left) + sizeOfTree(root.right) + 1;
     }
 
     private static int heightOfTree(BinaryTreeNode root) {
@@ -110,11 +111,4 @@ public class CreateBinaryTree {
 
 }
 
-class BinaryTreeNode {
-    BinaryTreeNode left, right;
-    int data;
 
-    public BinaryTreeNode(int data) {
-        this.data = data;
-    }
-}

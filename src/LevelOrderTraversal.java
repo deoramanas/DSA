@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import org.apache.commons.collections4.MultiValuedMap;
@@ -21,10 +24,12 @@ public class LevelOrderTraversal {
 
         map = levelOrderTraversalUsingMap(root, 1, map);
 
-        map.entries().stream().forEach(integerIntegerEntry -> System.out.println(integerIntegerEntry.getKey() + " " + integerIntegerEntry.getValue()));
+        map.entries().stream().forEach(integerIntegerEntry -> System.out
+                .println(integerIntegerEntry.getKey() + " " + integerIntegerEntry.getValue()));
     }
 
-    private static MultiValuedMap<Integer, Integer> levelOrderTraversalUsingMap(BinaryTreeNode root, int level, MultiValuedMap<Integer, Integer> map) {
+    private static MultiValuedMap<Integer, Integer> levelOrderTraversalUsingMap(BinaryTreeNode root,
+            int level, MultiValuedMap<Integer, Integer> map) {
 
         if (root == null) {
             return null;
@@ -38,12 +43,57 @@ public class LevelOrderTraversal {
         return map;
     }
 
+    private static List<List<Integer>> levelOrderTraversalUsingQueueZigzag(BinaryTreeNode root) {
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> curr = new ArrayList<>();
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        if (root == null) {
+            return null;
+        }
+        queue.add(root);
+        queue.add(null);
+        boolean flag = true;
+        while (!queue.isEmpty()) {
+            BinaryTreeNode current = queue.poll();
+            if (current == null) {
+                if (!queue.isEmpty()) {
+                    System.out.println();
+                    queue.add(null);
+                    flag = !flag;
+                    if (flag) {
+                        Collections.reverse(curr);
+                    }
+                    list.add(new ArrayList<>(curr));
+                    curr.clear();
+                    continue;
+                } else {
+                    flag = !flag;
+                    if (flag) {
+                        Collections.reverse(curr);
+                    }
+                    list.add(new ArrayList<>(curr));
+                    return list;
+                }
+            }
+            // System.out.print(current.data + " ");
+            curr.add(current.data);
+
+            if (current.left != null) {
+                queue.add(current.left);
+            }
+
+            if (current.right != null) {
+                queue.add(current.right);
+            }
+        }
+        return list;
+    }
+
     private static void levelOrderTraversalUsingQueue(BinaryTreeNode root) {
         Queue<BinaryTreeNode> queue = new LinkedList<>();
         if (root == null) {
             return;
         }
-
         queue.add(root);
         queue.add(null);
 
