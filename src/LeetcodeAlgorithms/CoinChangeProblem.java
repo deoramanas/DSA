@@ -5,10 +5,10 @@ import java.util.Arrays;
 public class CoinChangeProblem {
     public static void main(String[] args) {
 
-        int[] coins = {1, 2, 5};
-        int amount = 11;
-//        int[] coins = {2};
-//        int amount = 3;
+        int[] coins = {2};
+        int amount = 3;
+        // int[] coins = {2};
+        // int amount = 3;
         int coinChange = coinChange(coins, amount);
         System.out.println(coinChange);
     }
@@ -21,7 +21,7 @@ public class CoinChangeProblem {
         for (int i = 0; i < coins.length; i++) {
             int currCoin = coins[i];
             for (int j = currCoin; j < dp.length; j++) {
-                if (dp[j - currCoin] != -Integer.MAX_VALUE) {
+                if (dp[j - currCoin] != Integer.MAX_VALUE) {
                     dp[j] = Math.min(dp[j], dp[j - currCoin] + 1);
                 }
             }
